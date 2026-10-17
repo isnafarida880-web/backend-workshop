@@ -1,0 +1,114 @@
+@baseUrl = http://localhost:8080
+
+### 1. GET Semua Menu (Status: 200 OK)
+GET {{baseUrl}}/api/menu
+Accept: application/json
+
+### 2. GET Satu Menu Berdasarkan ID - Berhasil (Status: 200 OK)
+GET {{baseUrl}}/api/menu/11
+Accept: application/json
+
+### 3. GET Satu Menu Berdasarkan ID - Tidak Ditemukan (Status: 404 Not Found)
+GET {{baseUrl}}/api/menu/9999
+Accept: application/json
+
+### 4. POST Tambah Menu Baru dengan image_url (URL Link via JSON) - (Status: 201 Created)
+POST {{baseUrl}}/api/menu
+Content-Type: application/json
+
+{
+  "name": "cireng ayam suwir pedas",
+  "description": "Dibuat dengan cimol dengan isian ayam suwir pedas",
+  "icon": "bi bi-cup-straw",
+  "image_url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+}
+
+### 5. POST Tambah Menu Baru dengan Multipart Form (Upload File Gambar / Link) - (Status: 201 Created)
+POST {{baseUrl}}/api/menu
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+
+Cireng Krispi Spesial
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+
+Cireng krispi gurih dengan isian ayam suwir pedas nagih
+--WebAppBoundary
+Content-Disposition: form-data; name="icon"
+
+bi bi-fire
+--WebAppBoundary
+Content-Disposition: form-data; name="image_url"
+
+https://example.com/cireng.jpg
+--WebAppBoundary--
+
+### 6. POST Tambah Menu Baru - Validasi Gagal (Status: 400 Bad Request)
+POST {{baseUrl}}/api/menu
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### 7. PUT Ubah Menu Berdasarkan ID via JSON (Status: 200 OK)
+PUT {{baseUrl}}/api/menu/5
+Content-Type: application/json
+
+{   
+  "name": "cireng ayam suwir",
+  "description": "Dibuat dengan cimol dengan isian ayam suwir pedas",
+  "icon": "bi bi-cup-straw",
+  "image_url": "https://img-global.cpcdn.com/recipes/e3b0de81b9f35ec3/1200x630cq80/photo.jpg"
+}
+
+### 8. PUT Ubah Menu Berdasarkan ID via Multipart Form (Upload File / Link) - (Status: 200 OK)
+PUT {{baseUrl}}/api/menu/5
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+
+Salad Buah Premium
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+
+Salad buah premium segar dengan saus fla keju spesial
+--WebAppBoundary
+Content-Disposition: form-data; name="icon"
+
+bi bi-star-fill
+--WebAppBoundary
+Content-Disposition: form-data; name="image_url"
+
+https://img-global.cpcdn.com/recipes/e3b0de81b9f35ec3/1200x630cq80/photo.jpg
+--WebAppBoundary--
+
+### 9. PUT Ubah Menu Berdasarkan ID - Tidak Ditemukan (Status: 404 Not Found)
+PUT {{baseUrl}}/api/menu/9999
+Content-Type: application/json
+
+{
+  "name": "Menu Fiktif",
+  "description": "Menu yang tidak ada di database",
+  "icon": "bi bi-question"
+}
+
+### 10. DELETE Hapus Menu Berdasarkan ID - Berhasil (Status: 204 No Content)
+DELETE {{baseUrl}}/api/menu/5 
+
+### 11. DELETE Hapus Menu Berdasarkan ID - Tidak Ditemukan (Status: 404 Not Found)
+DELETE {{baseUrl}}/api/menu/9999
+
+### 12. POST Upload File Gambar Mandiri (Status: 200 OK)
+POST {{baseUrl}}/api/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="contoh.png"
+Content-Type: image/png
+
+< ./sample.png
+--WebAppBoundary--
